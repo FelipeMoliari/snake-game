@@ -61,13 +61,15 @@ body {
         "header header header"
         "powerups game ranking"
         "controls game ranking";
-    grid-template-columns: 250px 1fr 200px;
+    grid-template-columns: minmax(250px, 300px) 1fr minmax(200px, 250px);
     grid-template-rows: auto 1fr auto;
-    height: 100vh;
+    min-height: calc(100vh - 60px);
+    max-height: calc(100vh - 60px);
     padding: 20px;
     gap: 20px;
     position: relative;
     z-index: 10;
+    overflow: hidden;
 }
 
 /* Header */
@@ -127,6 +129,8 @@ body {
 }
 
 #gameCanvas {
+    width: 600px;
+    height: 450px;
     border: 3px solid #00ffff;
     border-radius: 10px;
     background: #000;
@@ -284,6 +288,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
 .control-item {
@@ -320,6 +326,10 @@ body {
     background: linear-gradient(135deg, rgba(255, 0, 255, 0.05), rgba(0, 255, 255, 0.05));
     border: 1px solid rgba(255, 0, 255, 0.3);
     border-radius: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .powerups-title {
@@ -330,6 +340,12 @@ body {
     text-shadow: 0 0 10px #ff00ff;
     margin-bottom: 20px;
     text-align: center;
+    flex-shrink: 0;
+}
+
+.powerups-list {
+    flex: 1;
+    overflow-y: auto;
 }
 
 .powerup-item {
@@ -396,6 +412,10 @@ body {
     background: linear-gradient(135deg, rgba(0, 255, 255, 0.05), rgba(255, 0, 255, 0.05));
     border: 1px solid rgba(0, 255, 255, 0.3);
     border-radius: 10px;
+    max-height: 500px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .ranking-title {
@@ -406,6 +426,12 @@ body {
     text-shadow: 0 0 10px #00ffff;
     margin-bottom: 20px;
     text-align: center;
+    flex-shrink: 0;
+}
+
+.ranking-list {
+    flex: 1;
+    overflow-y: auto;
 }
 
 .ranking-item {
@@ -446,6 +472,34 @@ body {
 }
 
 /* Responsive Design */
+/* Large screens - prevent excessive stretching */
+@media (min-width: 1600px) {
+    .game-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        grid-template-columns: 300px 1fr 250px;
+    }
+    
+    #gameCanvas {
+        width: 600px;
+        height: 450px;
+        max-width: 600px;
+        max-height: 450px;
+    }
+    
+    .powerups-info {
+        max-height: 350px;
+    }
+    
+    .ranking-panel {
+        max-height: 450px;
+    }
+    
+    .controls-info {
+        max-height: 250px;
+    }
+}
+
 @media (max-width: 1200px) {
     .game-container {
         grid-template-areas: 
@@ -458,8 +512,8 @@ body {
     }
     
     #gameCanvas {
-        width: 600px;
-        height: 450px;
+        width: 500px;
+        height: 375px;
     }
     
     .overlay-content {
@@ -556,4 +610,50 @@ body {
 .copyright:hover {
     opacity: 1;
     text-shadow: 0 0 15px #00ffff;
+}
+
+/* Custom scrollbars for side panels */
+.powerups-info::-webkit-scrollbar,
+.ranking-panel::-webkit-scrollbar,
+.controls-info::-webkit-scrollbar,
+.ranking-list::-webkit-scrollbar,
+.powerups-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.powerups-info::-webkit-scrollbar-track,
+.ranking-panel::-webkit-scrollbar-track,
+.controls-info::-webkit-scrollbar-track,
+.ranking-list::-webkit-scrollbar-track,
+.powerups-list::-webkit-scrollbar-track {
+    background: rgba(0, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.powerups-info::-webkit-scrollbar-thumb,
+.controls-info::-webkit-scrollbar-thumb,
+.powerups-list::-webkit-scrollbar-thumb {
+    background: #ff00ff;
+    border-radius: 3px;
+    box-shadow: 0 0 8px #ff00ff;
+}
+
+.ranking-panel::-webkit-scrollbar-thumb,
+.ranking-list::-webkit-scrollbar-thumb {
+    background: #00ffff;
+    border-radius: 3px;
+    box-shadow: 0 0 8px #00ffff;
+}
+
+.powerups-info::-webkit-scrollbar-thumb:hover,
+.controls-info::-webkit-scrollbar-thumb:hover,
+.powerups-list::-webkit-scrollbar-thumb:hover {
+    background: #ff44ff;
+    box-shadow: 0 0 12px #ff00ff;
+}
+
+.ranking-panel::-webkit-scrollbar-thumb:hover,
+.ranking-list::-webkit-scrollbar-thumb:hover {
+    background: #44ffff;
+    box-shadow: 0 0 12px #00ffff;
 }

@@ -26,7 +26,6 @@ export class GameState {
         const multiplier = this.activePowerups.has('double') ? 2 : 1;
         this.score += points * multiplier;
         
-        // Level up every 500 points
         const newLevel = Math.floor(this.score / 500) + 1;
         if (newLevel > this.level) {
             this.level = newLevel;

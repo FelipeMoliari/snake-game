@@ -42,7 +42,6 @@ export class Game {
     setupEventListeners() {
         document.addEventListener('keydown', (e) => this.handleKeyPress(e));
         
-        // UI Event Listeners
         document.getElementById('playButton').addEventListener('click', () => {
             const button = document.getElementById('playButton');
             if (button.textContent === 'PLAY AGAIN') {
@@ -57,14 +56,12 @@ export class Game {
     handleKeyPress(e) {
         const key = e.key.toLowerCase();
         
-        // Handle pause/unpause
         if (key === ' ' || key === 'escape') {
             e.preventDefault();
             this.togglePause();
             return;
         }
         
-        // Only handle movement if game is playing and not paused
         if (!this.gameState.isPlaying || this.gameState.isPaused) return;
         
         const directions = {
@@ -124,12 +121,10 @@ export class Game {
     }
 
     update(deltaTime, currentTime) {
-        // Update snake movement
         if (currentTime - this.lastMoveTime > this.getEffectiveSpeed()) {
             this.snake.update();
             this.lastMoveTime = currentTime;
             
-            // Check food collision
             const head = this.snake.body[0];
             if (head.x === this.food.x && head.y === this.food.y) {
                 this.snake.grow();
@@ -138,7 +133,6 @@ export class Game {
                 this.createFoodParticles();
             }
             
-            // Check collisions
             if (this.snake.checkSelfCollision()) {
                 if (this.snake.hasShield) {
                     this.snake.hasShield = false;
@@ -149,7 +143,6 @@ export class Game {
                 }
             }
             
-            // Handle wall collision with teleport for shield
             if (this.snake.checkWallCollision()) {
                 if (this.snake.hasShield) {
                     this.teleportSnake();
@@ -162,17 +155,14 @@ export class Game {
             }
         }
         
-        // Update power-ups
         this.powerUpSystem.updateActivePowerUps(this.snake);
         this.powerUpSystem.updatePowerUps(deltaTime, this.snake);
         
-        // Spawn power-ups
         if (currentTime - this.lastPowerUpSpawn > 15000 && Math.random() < CONFIG.POWERUP_SPAWN_CHANCE) {
             this.powerUpSystem.spawnPowerUp(this.snake, this.food);
             this.lastPowerUpSpawn = currentTime;
         }
         
-        // Update particles
         this.gameState.particles = this.gameState.particles.filter(particle => particle.update());
         
         this.updateUI();
@@ -181,10 +171,10 @@ export class Game {
     getEffectiveSpeed() {
         let speed = this.gameState.speed;
         if (this.gameState.activePowerups.has(POWERUP_TYPES.SPEED)) {
-            speed *= 0.5; // Faster
+            speed *= 0.5;
         }
         if (this.gameState.activePowerups.has(POWERUP_TYPES.SLOW)) {
-            speed *= 2; // Slower
+            speed *= 2;
         }
         return speed;
     }
@@ -192,7 +182,6 @@ export class Game {
     teleportSnake() {
         const head = this.snake.body[0];
         
-        // Teleport to opposite side
         if (head.x < 0) {
             head.x = CONFIG.CANVAS_WIDTH - CONFIG.GRID_SIZE;
         } else if (head.x >= CONFIG.CANVAS_WIDTH) {
@@ -215,24 +204,18 @@ export class Game {
     }
 
     draw() {
-        // Clear canvas
         this.ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
         this.ctx.fillRect(0, 0, CONFIG.CANVAS_WIDTH, CONFIG.CANVAS_HEIGHT);
         
-        // Draw game elements
         this.food.draw(this.ctx);
         this.snake.draw(this.ctx);
         
-        // Draw power-ups
         this.gameState.powerups.forEach(powerup => powerup.draw(this.ctx));
         
-        // Draw particles
         this.gameState.particles.forEach(particle => particle.draw(this.ctx));
         
-        // Draw power-up indicators
         this.powerUpSystem.drawPowerUpIndicators(this.ctx);
         
-        // Draw pause overlay
         if (this.gameState.isPaused) {
             this.drawPauseOverlay();
         }
@@ -261,7 +244,6 @@ export class Game {
         document.getElementById('currentScore').textContent = formatScore(this.gameState.score);
         document.getElementById('currentLevel').textContent = this.gameState.level;
         
-        // Update high score
         const highScore = this.gameState.rankings.length > 0 ? this.gameState.rankings[0].score : 0;
         document.getElementById('highScore').textContent = formatScore(highScore);
     }

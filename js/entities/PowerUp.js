@@ -5,7 +5,7 @@ export class PowerUp {
         this.x = x;
         this.y = y;
         this.type = type;
-        this.lifetime = 10000; // 10 seconds
+        this.lifetime = 10000;
         this.age = 0;
         this.pulsePhase = 0;
     }
@@ -37,7 +37,6 @@ export class PowerUp {
         ctx.fillRect(this.x + offset, this.y + offset, size, size);
         ctx.shadowBlur = 0;
         
-        // Draw symbol
         ctx.fillStyle = '#000';
         ctx.font = '12px Orbitron';
         ctx.textAlign = 'center';

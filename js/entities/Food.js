@@ -18,7 +18,6 @@ export class Food {
     }
 
     update() {
-        // Food doesn't need to update
     }
 
     draw(ctx) {
@@ -26,7 +25,6 @@ export class Food {
         const centerY = this.y + CONFIG.GRID_SIZE / 2;
         const radius = CONFIG.GRID_SIZE / 2;
         
-        // Create gradient
         const gradient = ctx.createRadialGradient(
             centerX, centerY, 0,
             centerX, centerY, radius
@@ -35,7 +33,6 @@ export class Food {
         gradient.addColorStop(0.7, '#ff0088');
         gradient.addColorStop(1, '#880044');
         
-        // Draw food with glow effect
         ctx.fillStyle = gradient;
         ctx.shadowColor = '#ff00ff';
         ctx.shadowBlur = 15;

@@ -25,9 +25,9 @@ export class Snake {
         this.body.unshift(head);
         
         if (!this.shouldGrow) {
-            this.body.pop(); // Remove tail unless growing
+            this.body.pop();
         } else {
-            this.shouldGrow = false; // Reset grow flag
+            this.shouldGrow = false;
         }
     }
 
@@ -60,7 +60,6 @@ export class Snake {
     }
 
     changeDirection(newDirection) {
-        // Prevent reversing into itself
         if (newDirection.x !== -this.direction.x || newDirection.y !== -this.direction.y) {
             this.nextDirection = newDirection;
         }
@@ -69,7 +68,6 @@ export class Snake {
     draw(ctx) {
         this.body.forEach((segment, index) => {
             if (index === 0) {
-                // Head
                 const gradient = ctx.createRadialGradient(
                     segment.x + CONFIG.GRID_SIZE / 2, segment.y + CONFIG.GRID_SIZE / 2, 0,
                     segment.x + CONFIG.GRID_SIZE / 2, segment.y + CONFIG.GRID_SIZE / 2, CONFIG.GRID_SIZE
@@ -89,7 +87,6 @@ export class Snake {
                 
                 ctx.fillStyle = gradient;
             } else {
-                // Body
                 const alpha = 1 - (index / this.body.length) * 0.5;
                 ctx.fillStyle = `rgba(0, 255, 255, ${alpha})`;
                 ctx.shadowColor = '#00ffff';

@@ -25,7 +25,6 @@ export class PowerUpSystem {
         const endTime = Date.now() + CONFIG.POWERUP_DURATION;
         this.gameState.activePowerups.set(powerup.type, endTime);
         
-        // Apply immediate effects
         switch (powerup.type) {
             case POWERUP_TYPES.SHIELD:
                 snake.hasShield = true;
@@ -40,7 +39,6 @@ export class PowerUpSystem {
     }
 
     applyShrinkEffect(snake) {
-        // Reduz o tamanho da cobra em 2 segmentos (mínimo 1)
         if (snake.body.length > 3) {
             snake.body.splice(-2, 2);
         } else if (snake.body.length > 1) {
@@ -63,7 +61,6 @@ export class PowerUpSystem {
         this.gameState.powerups = this.gameState.powerups.filter(powerup => {
             const alive = powerup.update(deltaTime);
             
-            // Check powerup collision
             const head = snake.body[0];
             if (head.x === powerup.x && head.y === powerup.y) {
                 this.collectPowerUp(powerup, snake);
@@ -94,15 +91,12 @@ export class PowerUpSystem {
             const remaining = Math.max(0, endTime - Date.now());
             const progress = remaining / CONFIG.POWERUP_DURATION;
             
-            // Background
             ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
             ctx.fillRect(10, y, 120, 20);
             
-            // Progress bar
             ctx.fillStyle = this.getPowerUpColor(type);
             ctx.fillRect(10, y, 120 * progress, 20);
             
-            // Text
             ctx.fillStyle = '#fff';
             ctx.font = '12px Rajdhani';
             ctx.fillText(type.toUpperCase(), 15, y + 15);

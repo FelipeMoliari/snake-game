@@ -32,7 +32,6 @@ export class BackgroundParticles {
             particle.x += particle.vx;
             particle.y += particle.vy;
             
-            // Wrap around edges
             if (particle.x < 0) particle.x = this.canvas.width;
             if (particle.x > this.canvas.width) particle.x = 0;
             if (particle.y < 0) particle.y = this.canvas.height;
@@ -43,7 +42,6 @@ export class BackgroundParticles {
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
-        // Draw particles
         this.ctx.fillStyle = 'rgba(0, 255, 255, 0.3)';
         this.particles.forEach(particle => {
             this.ctx.beginPath();
@@ -51,7 +49,6 @@ export class BackgroundParticles {
             this.ctx.fill();
         });
         
-        // Draw connections
         this.drawConnections();
     }
 

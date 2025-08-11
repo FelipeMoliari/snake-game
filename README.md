@@ -1,4 +1,5 @@
 # 🐍 Snake Game - Versão Moderna e Aprimorada
+<img src="snake-game.gif">
 
 ## 📋 Visão Geral
 
